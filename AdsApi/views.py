@@ -70,6 +70,7 @@ class AdsViews(APIView):
 
 
 class AdsCUD(generics.UpdateAPIView, generics.DestroyAPIView, generics.CreateAPIView):
+    permission_classes = [IsAdminUser,]
     queryset = AdsModel.objects.all()
     serializer_class = AdsSerializer
     lookup_field = 'id'
@@ -104,6 +105,7 @@ class AdsCUD(generics.UpdateAPIView, generics.DestroyAPIView, generics.CreateAPI
 
 
 class LocationViews(APIView):
+    permission_classes = [IsAdminUser,]
     def get(self, request):
         location = AdsLocationModel.objects.all()
         serializer = LocationSerializers(location, many=True)
@@ -158,6 +160,7 @@ class RecounterView(generics.ListAPIView, generics.CreateAPIView):
         return Response(data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        PermissionError(IsAdminUser)
         serializer = RequestCountSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
